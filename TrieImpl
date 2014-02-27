@@ -1,0 +1,128 @@
+
+class TrieNode{
+	
+	char letter;
+	TrieNode[] links;
+	boolean isWord;
+	
+	public TrieNode(char letter, boolean isWord){
+		
+		this.letter = letter;
+		links = new TrieNode[26];
+		this.isWord = isWord;
+		for(int i=0;i<26;i++){
+			links[i]=null;
+		}
+	}
+}
+
+public class TrieImpl {
+	
+	static TrieNode createTree(){
+		
+		return(new TrieNode('\0', false));
+		
+	}
+	
+	static void insertWord(TrieNode root, String word){
+		
+		TrieNode currNode = root;
+		char[] letters = word.toCharArray();
+		int wordLength = word.length();
+		boolean isWord = false;
+		
+		for(int i=0; i<wordLength; i++){
+			
+			if(currNode.links[letters[i]-97] != null && i == wordLength-1){
+				currNode.links[letters[i]-97].isWord = true;
+				break;
+			}
+			
+			if(currNode.links[letters[i]-97] == null){
+		
+				if(i == wordLength-1){
+					isWord = true;
+				}
+								
+				currNode.links[letters[i]-97] = new TrieNode(letters[i], isWord);
+			}
+			
+			currNode = currNode.links[letters[i]-97];
+		}
+		
+		//System.out.println("Word: " + word+" inserted with isWord = " + isWord);
+	}
+	
+	static boolean findWord(TrieNode node, String word){
+		
+		TrieNode currNode = node;
+		char[] letters = word.toCharArray();
+		int wordLength = word.length();
+		boolean found = false;
+		
+		for(int i=0; i<wordLength; i++){
+			if(i == wordLength-1 && currNode.links[letters[i]-97] != null){
+				return currNode.links[letters[i]-97].isWord;
+			}
+			else {
+				if(currNode!=null){
+					currNode = currNode.links[letters[i]-97];
+				}
+				else{
+					return false;
+				}
+			}
+		}
+		
+		return found;
+	}
+	
+	
+	static void printTrie(TrieNode Node, String word){
+		
+		TrieNode currNode = Node;
+		int i=0;
+		
+		if(currNode == null){
+			return;
+		}
+		else{
+						
+			if(currNode.letter != '\0'){
+				word = word.concat(Character.toString(currNode.letter));
+			}
+			if(currNode.isWord){
+				
+				System.out.println(word);
+			}
+			while(i<26){
+					printTrie(currNode.links[i], word);
+					i++;
+			}
+			
+				
+		}
+		
+	}
+	
+	public static void main(String[] args){
+		
+		TrieNode Root = TrieImpl.createTree();
+		
+		TrieImpl.insertWord(Root, "an");
+		TrieImpl.insertWord(Root, "a");
+		TrieImpl.insertWord(Root, "at");
+		TrieImpl.insertWord(Root, "all");
+		TrieImpl.insertWord(Root, "alloy");
+		TrieImpl.insertWord(Root, "aloe");
+		TrieImpl.insertWord(Root, "are");
+		TrieImpl.insertWord(Root, "ate");
+		TrieImpl.insertWord(Root, "be");
+		
+		System.out.println(TrieImpl.findWord(Root, "alo"));
+		System.out.println(TrieImpl.findWord(Root, "a"));
+		TrieImpl.printTrie(Root, "");
+		
+	}
+
+}
