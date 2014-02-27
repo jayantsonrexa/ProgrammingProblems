@@ -1,0 +1,82 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+
+public class LookAndSay {
+	
+	public static String printNum(String num){
+		
+		
+		
+		int count = 0;
+		
+		ArrayList<String> output = new ArrayList<>();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		char charUnderCheck = num.charAt(num.length()-1);
+		int i=num.length()-1;
+		int j=0;
+		while(i>=0){
+			count=0;
+			for(j=i; j>=0; j--){
+				if(num.charAt(j)==charUnderCheck){
+					count++;
+				}
+				else{
+					output.add(Character.toString(charUnderCheck));
+					output.add(Integer.toString(count));
+					charUnderCheck = num.charAt(j);
+					break;
+				}
+			}
+			if(j==-1){
+				output.add(Character.toString(charUnderCheck));
+				output.add(Integer.toString(count));
+				break;
+			}
+			i=j;
+		}
+		
+		//System.out.println(output.size());
+		
+		for(int itr = output.size()-1; itr>=0; itr--){
+			System.out.print(output.get(itr));
+			sb.append(output.get(itr));
+		}
+		System.out.print("\n");
+		
+				
+		//System.out.println(sb.toString());
+		//LookAndSay.printNum(sb.toString(), printCount++);
+		
+		return sb.toString();
+	}
+	
+	public static void main(String[] args){
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		String num= null;
+		try {
+			num = br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(num);
+		
+		for(int i=1; i<9; i++){
+			num = LookAndSay.printNum(num);
+		}
+	}
+		
+		
+		
+		
+	
+
+}
