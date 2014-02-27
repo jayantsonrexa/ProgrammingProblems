@@ -1,0 +1,112 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+//import java.util.HashMap;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+
+public class SetEquality {
+	
+	/*method to compare sets for equality
+	 * returns true if "ALL" sets are equal, else false
+	 * param: input is String[][]
+	 */
+	public static boolean allStringSetsIdentical(String[][] sets){
+		boolean equal = false;
+		
+		//get length of sets
+		int length = sets.length;
+		
+		//Arraylist to store each set from "sets"
+		@SuppressWarnings("rawtypes")
+		ArrayList<SortedSet> compareSets = new ArrayList<>();
+		
+		//add each set from from "sets" into arraylist.
+		//using sorted set to make checking equality easier
+		for(int i=0; i<length; i++){		//N times
+			SortedSet<String> stringSet = new TreeSet<String>(Arrays.asList(sets[i]));	//O(logN)
+			compareSets.add(stringSet);			//O(1)
+		}		//O(NlogN)
+		
+		//compare first set in arraylist to each subsequent set
+		//e.g set 1 to set 2 && set 1 to set 3
+		for(int i=1; i<length; i++){		//N times
+			if(compareSets.get(0).equals(compareSets.get(i))){
+				equal = true;
+				continue;
+			}
+			else{
+				//return false if even one of them is not identical
+				return false;
+			}
+		}
+		
+		
+		return equal;
+	}
+	
+	public static <K> void main(String[] args){
+		
+		String[] setOne = {"a", "b"};
+		String[] setTwo = {"b", "b", "a"};
+		String[] setThree = {"b", "a"};
+		String[] setFour = {"a"};
+		String[] setFive = {"b", "a", "c"};
+		String[] setSix = {"r", "s", "c"};
+		String[] setSeven = {"a", "b", "c"};
+		String[] setEight = {"f", "c", "r"};
+		String[] setNine = {"s", "t", "c"};
+		String[] setTen = {"s", "c", "b"};
+		String[] setEleven = {"c", "t", "h"};
+		String[] setTwelve = {"q", "f", "h"};
+		String[] setThirteen = {"r", "t", "f"};
+		String[] setFourteen = {"h", "d", "g"};
+		String[] setFifteen = {"a", "p", "o"};
+		
+		String[][] setsOne = {setOne, setTwo, setThree};
+		
+		System.out.println(SetEquality.allStringSetsIdentical(setsOne));
+		
+		String[][] setsTwo = {setOne, setTwo, setFour};
+		
+		System.out.println(SetEquality.allStringSetsIdentical(setsTwo));
+		
+		String[][] setsThree = {setOne, setTwo, setFive};
+		
+		System.out.println(SetEquality.allStringSetsIdentical(setsThree));
+		
+		String[][] setsFour = {setOne, setTwo, setThree, setFour, setFive, setSix, setSeven, 
+				              setEight, setNine, setTen, setEleven, setTwelve, setThirteen, 
+				              setFourteen, setFifteen,
+				              setOne, setTwo, setThree, setFour, setFive, setSix, setSeven, 
+				              setEight, setNine, setTen, setEleven, setTwelve, setThirteen, 
+				              setFourteen, setFifteen,
+				              setOne, setTwo, setThree, setFour, setFive, setSix, setSeven, 
+				              setEight, setNine, setTen, setEleven, setTwelve, setThirteen, 
+				              setFourteen, setFifteen,
+				              setOne, setTwo, setThree, setFour, setFive, setSix, setSeven, 
+				              setEight, setNine, setTen, setEleven, setTwelve, setThirteen, 
+				              setFourteen, setFifteen};
+		
+		long startTime = System.currentTimeMillis();
+		System.out.println(SetEquality.allStringSetsIdentical(setsFour));
+		long endTime = System.currentTimeMillis();
+		System.out.println("Total time: "+(endTime-startTime));
+		
+		String[][] setsFive = {setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne,
+				setOne, setOne, setOne, setOne, setOne, setOne, setOne, setOne};
+		
+		startTime = System.currentTimeMillis();
+		System.out.println(SetEquality.allStringSetsIdentical(setsFive));
+		endTime = System.currentTimeMillis();
+		System.out.println("Total time: "+(endTime-startTime));
+
+	}
+
+}
